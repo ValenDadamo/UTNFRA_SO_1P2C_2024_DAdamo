@@ -1,0 +1,4 @@
+Mi IP Pública es: 190.49.87.118
+Mi usuario es: vagrant
+El Hash de mi Usuario es: $y$j9T$KU.lOHU0KjFjjCfndTv8Z/$xz/22ug6Lb5ohL.Xto187wN5MoBCfQAFsKid0XztlkB
+La URL de mi repositorio es: git@github.com:ValenDadamo/UTNFRA_SO_1P2C_2024_DAdamo.git
