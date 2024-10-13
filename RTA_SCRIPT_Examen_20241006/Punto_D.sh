@@ -1,10 +1,8 @@
 #!/bin/bash
 
-echo "Creación de la estructura."
-mkdir -p "$HOME/Estructura_Asimetrica"/{{correo,clientes}/cartas{1..100},correo/carteros{1..10}}
-echo
+mkdir -p ~/Estructura_Asimetrica/{correo/{cartas_{1..100},carteros_{1..10}},clientes/cartas_{1..100}}
 
-echo "Validación de la estructura."
-tree "$HOME/Estructura_Asimetrica/" --noreport | pr -T -s' ' -w 90 --column 4
-echo
+tree ~/Estructura_Asimetrica/ --noreport | pr -T -s' ' -w 80 --column 4
+
+echo "Fin Punto D"
 
