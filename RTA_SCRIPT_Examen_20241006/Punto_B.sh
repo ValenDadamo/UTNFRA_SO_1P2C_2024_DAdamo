@@ -1,11 +1,9 @@
 #!/bin/bash
 
-DISCO="/dev/sdc"
-echo "Particiono el disco: $DISCO"
-echo
+DISK="/dev/sdc"
 
-# Particionamiento del disco
-sudo fdisk $DISCO << EOF
+# Creacion de particiones
+sudo fdisk $DISK << EOF
 n
 p
 1
@@ -23,58 +21,72 @@ p
 +1G
 n
 e
+4
 
-+7166M
 n
+l
 
 +1G
 n
+l
 
 +1G
 n
+l
 
 +1G
 n
+l
 
 +1G
 n
+l
 
 +1G
 n
+l
 
 +1G
 n
+l
 
-+1014M
++1G
+n
+l
+
+
 w
 EOF
 
-echo
-echo "Mis Particiones: "
-sudo fdisk -l $DISCO
-echo
+# Formateo de particiones
+sudo mkfs.ext4 ${DISK}1
+sudo mkfs.ext4 ${DISK}2
+sudo mkfs.ext4 ${DISK}3
+sudo mkfs.ext4 ${DISK}5
+sudo mkfs.ext4 ${DISK}6
+sudo mkfs.ext4 ${DISK}7
+sudo mkfs.ext4 ${DISK}8
+sudo mkfs.ext4 ${DISK}9
+sudo mkfs.ext4 ${DISK}10
+sudo mkfs.ext4 ${DISK}11
 
-# Formateo de las particiones
-echo "Formateo las Particiones: "
-for i in {1..11}; do
-    sudo mkfs.ext4 "${DISCO}$i"
-done
-echo
+# Escribir en /etc/fstab para indicar donde se montaran las particiones
+echo "${DISK}1     /Examenes-UTN/alumno_1/parcial_1     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}2     /Examenes-UTN/alumno_1/parcial_2     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}3     /Examenes-UTN/alumno_1/parcial_3     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}5     /Examenes-UTN/alumno_2/parcial_1     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}6     /Examenes-UTN/alumno_2/parcial_2     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}7     /Examenes-UTN/alumno_2/parcial_3     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}8     /Examenes-UTN/alumno_3/parcial_1     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}9     /Examenes-UTN/alumno_3/parcial_2     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}10    /Examenes-UTN/alumno_3/parcial_3     ext4    defaults        0 0" | sudo tee -a /etc/fstab
+echo "${DISK}11    /Examenes-UTN/profesores     ext4    defaults        0 0" | sudo tee -a /etc/fstab
 
-# Montar los discos en las carpetas correspondientes
-echo "Monto las Particiones: "
-sudo mount /dev/sdc1 $HOME/Examenes-UTN/alumno_1/parcial_1
-sudo mount /dev/sdc2 $HOME/Examenes-UTN/alumno_1/parcial_2
-sudo mount /dev/sdc3 $HOME/Examenes-UTN/alumno_1/parcial_3
-sudo mount /dev/sdc5 $HOME/Examenes-UTN/alumno_2/parcial_1
-sudo mount /dev/sdc6 $HOME/Examenes-UTN/alumno_2/parcial_2
-sudo mount /dev/sdc7 $HOME/Examenes-UTN/alumno_2/parcial_3
-sudo mount /dev/sdc8 $HOME/Examenes-UTN/alumno_3/parcial_1
-sudo mount /dev/sdc9 $HOME/Examenes-UTN/alumno_3/parcial_2
-sudo mount /dev/sdc10 $HOME/Examenes-UTN/alumno_3/parcial_3
-sudo mount /dev/sdc11 $HOME/Examenes-UTN/profesores
-echo
+# Montar particiones de forma persistente
+sudo mount -a
 
-echo "Valido montaje: "
-lsblk -f | grep "$HOME/Examenes-UTN"
+# Mostrar resultado
+lsblk -f $DISK
+
+echo "Fin Punto B"
 
