@@ -1,0 +1,79 @@
+Explicación del Script para Crear Usuarios y Grupos en Linux
+
+1. #!/bin/bash
+   - Indica que el script debe ser ejecutado usando el intérprete de comandos bash.
+
+2. echo "Creando grupos secundarios..."
+   - Muestra un mensaje en la terminal indicando que se están creando grupos.
+
+3. sudo groupadd p1c2_2024_gAlumno
+   - Crea un grupo llamado p1c2_2024_gAlumno.
+
+4. sudo groupadd p1c2_2024_gProfesores
+   - Crea un grupo llamado p1c2_2024_gProfesores.
+
+5. PASSWD=$(sudo grep $(whoami) /etc/shadow | awk -F ':' '{print $2}')
+   - Obtiene el hash de la contraseña del usuario actual desde el archivo /etc/shadow.
+
+6. echo "Creando usuarios..."
+   - Muestra un mensaje indicando que se están creando usuarios.
+
+7. sudo useradd -m -s /bin/bash -p "${PASSWD}" -G p1c2_2024_gAlumno p1c2_2024_A1
+   - Crea un usuario llamado p1c2_2024_A1, asignándole el hash de la contraseña y añadiéndolo al grupo p1c2_2024_gAlumno.
+
+8. sudo useradd -m -s /bin/bash -p "${PASSWD}" -G p1c2_2024_gAlumno p1c2_2024_A2
+   - Crea un usuario llamado p1c2_2024_A2, asignándole el hash de la contraseña y añadiéndolo al grupo p1c2_2024_gAlumno.
+
+9. sudo useradd -m -s /bin/bash -p "${PASSWD}" -G p1c2_2024_gAlumno p1c2_2024_A3
+   - Crea un usuario llamado p1c2_2024_A3, asignándole el hash de la contraseña y añadiéndolo al grupo p1c2_2024_gAlumno.
+
+10. sudo useradd -m -s /bin/bash -p "${PASSWD}" -G p1c2_2024_gProfesores p1c2_2024_P1
+    - Crea un usuario llamado p1c2_2024_P1, asignándole el hash de la contraseña y añadiéndolo al grupo p1c2_2024_gProfesores.
+
+11. echo "Ajustando propietarios y permisos..."
+    - Muestra un mensaje indicando que se están ajustando propietarios y permisos.
+
+12. sudo chown -R p1c2_2024_A1.p1c2_2024_A1 /Examenes-UTN/alumno_1
+    - Cambia el propietario del directorio /Examenes-UTN/alumno_1 al usuario p1c2_2024_A1.
+
+13. sudo chown -R p1c2_2024_A2.p1c2_2024_A2 /Examenes-UTN/alumno_2
+    - Cambia el propietario del directorio /Examenes-UTN/alumno_2 al usuario p1c2_2024_A2.
+
+14. sudo chown -R p1c2_2024_A3.p1c2_2024_A3 /Examenes-UTN/alumno_3
+    - Cambia el propietario del directorio /Examenes-UTN/alumno_3 al usuario p1c2_2024_A3.
+
+15. sudo chown -R p1c2_2024_P1.p1c2_2024_gProfesores /Examenes-UTN/profesores
+    - Cambia el propietario del directorio /Examenes-UTN/profesores al usuario p1c2_2024_P1.
+
+16. sudo chmod -R 750 /Examenes-UTN/alumno_1
+    - Establece los permisos del directorio /Examenes-UTN/alumno_1 para que el propietario tenga permisos de lectura, escritura y ejecución; el grupo tenga permisos de lectura y ejecución; y otros no tengan acceso.
+
+17. sudo chmod -R 760 /Examenes-UTN/alumno_2
+    - Establece los permisos del directorio /Examenes-UTN/alumno_2 para que el propietario tenga permisos de lectura, escritura y ejecución; el grupo tenga permisos de lectura y escritura; y otros no tengan acceso.
+
+18. sudo chmod -R 700 /Examenes-UTN/alumno_3
+    - Establece los permisos del directorio /Examenes-UTN/alumno_3 para que solo el propietario tenga acceso completo.
+
+19. sudo chmod -R 775 /Examenes-UTN/profesores
+    - Establece los permisos del directorio /Examenes-UTN/profesores para que el propietario y el grupo tengan permisos de lectura, escritura y ejecución; y otros tengan permisos de lectura y ejecución.
+
+20. echo "Creando archivo validar.txt..."
+    - Muestra un mensaje indicando que se está creando el archivo validar.txt.
+
+21. sudo su -c "whoami > /Examenes-UTN/alumno_1/validar.txt" p1c2_2024_A1
+    - Crea un archivo validar.txt en el directorio de alumno_1 que contiene el nombre del usuario.
+
+22. sudo su -c "whoami > /Examenes-UTN/alumno_2/validar.txt" p1c2_2024_A2
+    - Crea un archivo validar.txt en el directorio de alumno_2 que contiene el nombre del usuario.
+
+23. sudo su -c "whoami > /Examenes-UTN/alumno_3/validar.txt" p1c2_2024_A3
+    - Crea un archivo validar.txt en el directorio de alumno_3 que contiene el nombre del usuario.
+
+24. sudo su -c "whoami > /Examenes-UTN/profesores/validar.txt" p1c2_2024_P1
+    - Crea un archivo validar.txt en el directorio de profesores que contiene el nombre del usuario.
+
+25. sudo grep -R p1c2 /Examenes-UTN/
+    - Busca y muestra el contenido de todos los archivos que contienen "p1c2" en el directorio /Examenes-UTN/.
+
+26. echo "Script finalizado."
+    - Muestra un mensaje indicando que el script ha terminado su ejecución.
